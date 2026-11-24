@@ -37,9 +37,9 @@ export default {
         const match=setCookies.match(new RegExp("(?:^|,\\s*)"+name+"=([^;,]+)"));
         if(match) forwarded.push(name+"="+match[1]+"; Path=/; Secure; HttpOnly; SameSite=Lax"+(name==="PHPSESSID"?"; Max-Age=3600":""));
       }
-      const responseHeaders={};
-      if(forwarded.length) responseHeaders["Set-Cookie"]=forwarded.join(", ");
-      return json(payload,upstream.ok?200:upstream.status,responseHeaders);
+      const responseHeaders=new Headers({"Content-Type":"application/json; charset=utf-8","Cache-Control":"no-store"});
+      for(const cookie of forwarded) responseHeaders.append("Set-Cookie",cookie);
+      return new Response(JSON.stringify(payload),{status:upstream.ok?200:upstream.status,headers:responseHeaders});
     } catch(e) {
       return json({error:"Tidak dapat terhubung ke layanan Guerrilla Mail.",detail:String(e).slice(0,180)},502);
     }
