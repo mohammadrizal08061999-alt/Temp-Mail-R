@@ -1,34 +1,38 @@
 # Temp Mail R
 
-Web app temporary email untuk QA/testing menggunakan API Mail.tm.
+Aplikasi web temporary inbox untuk QA/testing dengan API Guerrilla Mail.
 
 ## Fitur
-- Generate alamat email acak atau custom.
-- Mengambil domain aktif dari Mail.tm.
-- Password mailbox dibuat otomatis.
-- Inbox refresh manual dan otomatis setiap 20 detik.
-- Membaca isi pesan dan mendeteksi kandidat kode OTP 4–8 digit.
-- Riwayat mailbox disimpan lokal di browser.
+- Membuat alamat email acak.
+- Meminta username custom melalui fungsi `set_email_user` (domain ditentukan penyedia).
+- Membaca inbox dan isi email.
+- Deteksi kandidat kode OTP 4–8 digit.
+- Refresh inbox manual dan otomatis setiap 30 detik.
+- Riwayat alamat disimpan lokal di browser.
+- Cloudflare Worker meneruskan panggilan API dan menjaga cookie sesi PHPSESSID.
 
-## Deploy gratis ke Cloudflare Pages
-1. Buka Cloudflare Dashboard → Workers & Pages.
-2. Pilih **Create application** → **Pages** → **Connect to Git**.
-3. Hubungkan GitHub dan pilih repository `mohammadrizal08061999-alt/Temp-Mail-R`.
-4. Production branch: `main`.
-5. Framework preset: None.
-6. Build command: `exit 0`.
-7. Build output directory: `/` (root).
-8. Klik **Save and Deploy**.
+## Deployment
+Aplikasi berjalan sebagai Cloudflare Worker dengan Static Assets, bukan Cloudflare Pages.
 
-Setiap commit ke branch `main` akan memicu deployment otomatis.
+Repository: `mohammadrizal08061999-alt/Temp-Mail-R`
 
-## Catatan keamanan dan batasan
-- Ini layanan temporary email untuk pengujian yang sah, bukan layanan email permanen.
-- Mailbox dan password disimpan di localStorage browser. Jangan gunakan untuk akun penting, data pribadi, atau informasi rahasia.
-- Email dan ketersediaan domain bergantung pada Mail.tm; layanan dapat membatasi, menghapus, atau menolak mailbox.
-- API Mail.tm gratis tanpa API key, tetapi memiliki batas penggunaan dan Terms of Use. Aplikasi ini tidak menjamin semua OTP/pesan akan diterima.
-- Tautan atribusi ke Mail.tm ditampilkan pada footer aplikasi.
-- Jangan gunakan untuk melewati kontrol keamanan, membuat akun massal, spam, atau aktivitas yang melanggar ketentuan layanan.
+Konfigurasi `wrangler.jsonc` menggunakan `worker.js` sebagai entry point dan `index.html` sebagai static asset. Setiap commit ke branch `main` memicu deployment otomatis jika integrasi Git Cloudflare aktif.
 
-## Lokal
-Buka `index.html` melalui web server statis lokal (misalnya VS Code Live Server).
+## Catatan penting
+- Guerrilla Mail tidak menyediakan password mailbox pada API publiknya. Akses mailbox bergantung pada sesi browser; karena itu aplikasi tidak membuat password palsu.
+- Alamat dan pesan bersifat sementara. Dokumentasi penyedia menyebut masa berlaku alamat/pesan sekitar 60 menit, dan sesi dapat kedaluwarsa setelah tidak aktif.
+- Custom username tidak menjamin alamat tertentu akan tersedia; hasil akhir ditentukan oleh penyedia.
+- API tidak menerbitkan batas rate limit tetap. Aplikasi melakukan polling inbox setiap 30 detik untuk mengurangi beban.
+- Jangan gunakan untuk akun penting, informasi sensitif, atau layanan yang melarang disposable email.
+- Gunakan hanya untuk QA/pengujian yang sah. Jangan gunakan untuk spam, pembuatan akun massal, atau menghindari kontrol keamanan.
+- Layanan pihak ketiga dapat berubah, membatasi, atau menghentikan API sewaktu-waktu.
+
+## Referensi
+- [Dokumentasi API Guerrilla Mail](https://www.guerrillamail.com/GuerrillaMailAPI.html)
+- [Ketentuan layanan Guerrilla Mail](https://www.guerrillamail.com/tos)
+
+## Pengembangan lokal
+Untuk menguji Worker beserta API route, gunakan Wrangler:
+```bash
+npx wrangler dev
+```
