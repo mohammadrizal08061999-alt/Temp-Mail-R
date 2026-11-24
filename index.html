@@ -21,7 +21,7 @@
 <div class="row" style="margin-top:12px"><button class="btn" id="generate">＋ Generate email</button><button class="btn secondary" id="randomize">Acak nama</button></div>
 <div class="divider"></div><div class="muted">ALAMAT EMAIL AKTIF</div><div class="address" id="address">Belum ada email dibuat</div>
 <div class="row"><button class="btn secondary" id="copyAddress" disabled>Salin email</button><button class="btn ghost" id="newEmail" disabled>Ganti email</button></div>
-<div class="divider"></div><div class="row" style="justify-content:space-between"><div><div class="muted">AKSES MAILBOX</div><div class="pass" id="password">—</div></div><button class="btn ghost" id="copyPassword" disabled>Salin password</button></div>
+<div class="divider"></div><div class="row" style="justify-content:space-between"><div><div class="muted">AKSES MAILBOX</div><div class="pass" id="password">—</div></div><button class="btn ghost" id="copyPassword" disabled style="display:none">Salin password</button></div>
 <div class="notice">Guerrilla Mail tidak menyediakan password mailbox. Akses inbox dikelola melalui sesi browser. Jangan gunakan untuk akun penting atau data sensitif.</div>
 <div class="muted" style="margin-top:16px">RIWAYAT EMAIL DI PERANGKAT INI</div><div class="history" id="history"><span class="muted">Belum ada riwayat.</span></div></section>
 <section class="card"><div class="inbox-head"><h3>02 / Inbox masuk</h3><div class="row"><span class="stat" id="lastUpdate">Belum diperbarui</span><button class="btn secondary" id="refresh" disabled>↻ Refresh</button></div></div>
@@ -29,7 +29,7 @@
 <div class="divider"></div><h3>Detail pesan</h3><div id="messageDetail" class="empty">Pilih pesan di inbox untuk membaca detailnya.</div>
 <div class="notice">OTP dideteksi otomatis dari isi pesan. Gunakan hanya pada sistem yang Anda miliki atau berwenang untuk uji.</div></section>
 </div>
-<footer class="footer">Powered by <a href="https://mail.tm/" target="_blank" rel="noopener">Mail.tm</a> API · Gratis sesuai kebijakan penyedia · <a href="https://github.com/mohammadrizal08061999-alt/Temp-Mail-R" target="_blank" rel="noopener">Source code</a></footer>
+<footer class="footer">Powered by <a href="https://www.guerrillamail.com/" target="_blank" rel="noopener">Guerrilla Mail</a> API · Gratis sesuai kebijakan penyedia · <a href="https://github.com/mohammadrizal08061999-alt/Temp-Mail-R" target="_blank" rel="noopener">Source code</a></footer>
 </main><div class="toast" id="toast"></div>
 <script>
 let current=null,timer=null,lastMessages=[];
